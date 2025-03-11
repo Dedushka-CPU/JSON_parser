@@ -1,27 +1,22 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(JSONParserProject VERSION 1.0)
+project(JSONParser VERSION 1.0)
+
+option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
 
 set(CMAKE_CXX_STANDARD 17)
+
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(SOURCES
+add_library(JsonParser
     JSONNode.cpp
     JSONParser.cpp
     Tokenizer.cpp
-    main.cpp  
 )
+target_include_directories(JsonParser PUBLIC ${CMAKE_SOURCE_DIR})
 
-set(HEADERS
-    JSONNode.h
-    JSONParser.h
-    Tokenizer.h
-)
+add_executable(JSONParserProg main.cpp)
 
-add_executable(JSONParser ${SOURCES} ${HEADERS})
+target_link_libraries(JSONParserProg PRIVATE JsonParser)
 
-target_include_directories(JSONParser PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
-if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    target_compile_options(JSONParser PRIVATE -Wall -Wextra -Wpedantic)
-endif()
